@@ -1,22 +1,32 @@
-import React, { useState } from 'react';
-import { View, Button, TextInput, StyleSheet, Text } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { useSearchMoviesQuery } from '../../redux/apiMovie';
-import { setMovies } from '../../redux/slices/moviesSlice';
+import React, {useCallback, useEffect, useState} from 'react';
+import {View, TextInput, StyleSheet, Text} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {useSearchMoviesQuery} from '../../redux/apiMovie';
+import {setMovies} from '../../redux/slices/moviesSlice';
+import {Movie} from '../../redux/types';
 
 const MoviesSearch = () => {
   const [searchString, setSearchString] = useState<string>('');
   const dispatch = useDispatch();
 
-  const { data, isFetching } = useSearchMoviesQuery(searchString, {
+  const {data, isFetching} = useSearchMoviesQuery(searchString, {
     skip: searchString === '',
   });
 
-  const handlePress = () => {
+  const dispatchMovies = useCallback(
+    (moviesArray: Movie[], search: string) => {
+      dispatch(setMovies({moviesArray, searchString: search}));
+    },
+    [dispatch],
+  );
+
+  useEffect(() => {
     if (data?.results) {
-      dispatch(setMovies({ moviesArray: data.results, searchString }));
+      setTimeout(() => {
+        dispatchMovies(data.results, searchString);
+      }, 1000);
     }
-  };
+  }, [data, searchString, dispatchMovies]);
 
   return (
     <View>
@@ -26,8 +36,11 @@ const MoviesSearch = () => {
         onChangeText={setSearchString}
         placeholder="Search movies..."
       />
-      <Button onPress={handlePress} title="Search" />
-      {isFetching && <View><Text>Loading...</Text></View>}
+      {isFetching && (
+        <View>
+          <Text>Loading...</Text>
+        </View>
+      )}
     </View>
   );
 };

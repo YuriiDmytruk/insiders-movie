@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 5,
     fontWeight: 'bold',
+    color: 'black',
   },
 });
 

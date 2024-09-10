@@ -3,10 +3,10 @@ import {
   View,
   Text,
   Image,
-  Button,
   StyleSheet,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackParamList} from '../redux/types';
@@ -23,7 +23,12 @@ const MovieCard: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.buttonContainer}>
-          <Button title="Back to List" onPress={() => navigation.goBack()} />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={styles.buttonText}>Back to List</Text>
+          </TouchableOpacity>
         </View>
         <Image
           source={{
@@ -33,7 +38,7 @@ const MovieCard: React.FC = () => {
           resizeMode="contain"
         />
         <View style={styles.textContainer}>
-          <GenreList genresId={movie.genre_ids}/>
+          <GenreList genresId={movie.genre_ids} />
           <Text style={styles.title}>{movie.title}</Text>
           <Text style={styles.overview}>{movie.overview}</Text>
         </View>
@@ -58,12 +63,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
+    color: 'black',
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 10,
   },
   overview: {
+    color: 'black',
     fontSize: 16,
     textAlign: 'center',
     marginVertical: 10,
@@ -71,7 +78,20 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginVertical: 20,
   },
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'blue',
+    fontSize: 16,
+  },
   textContainer: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
     marginBottom: 20,
   },
 });

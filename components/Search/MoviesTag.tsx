@@ -13,7 +13,7 @@ const MoviesTag = () => {
   const [tag, setTag] = useState<Tag>(_tag);
   const dispatch = useDispatch();
 
-  const { data, isFetching } = useGetMoviesByTagQuery(tag);
+  const { data } = useGetMoviesByTagQuery(tag);
 
   const dispatchMovies = useCallback((moviesArray: Movie[], __tag: Tag ) => {
     dispatch(setMoviesTag({ moviesArray, tag: __tag }));
@@ -61,8 +61,6 @@ const MoviesTag = () => {
           </Text>
         </TouchableOpacity>
       </View>
-
-      {isFetching && <Text>Loading...</Text>}
     </View>
   );
 };

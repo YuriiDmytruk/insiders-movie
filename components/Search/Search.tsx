@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import MoviesTag from './MoviesTag';
 import MoviesSearch from './MoviesSearch';
 
@@ -13,16 +13,45 @@ const Search = () => {
   return (
     <View>
       <View style={styles.buttonGroup}>
-        <Button
-          title="Search Movies"
-          onPress={() => handleToggle('search')}
-          color={activeComponent === 'search' ? 'blue' : 'gray'}
-        />
-        <Button
-          title="Browse by Tag"
-          onPress={() => handleToggle('tag')}
-          color={activeComponent === 'tag' ? 'blue' : 'gray'}
-        />
+        <TouchableOpacity
+          style={[
+            styles.button,
+            activeComponent === 'search'
+              ? styles.activeButton
+              : styles.inactiveButton,
+          ]}
+          onPress={() => handleToggle('search')}>
+          <Text
+            style={[
+              styles.buttonText,
+              activeComponent === 'search'
+                ? styles.activeButtonText
+                : styles.inactiveButtonText,
+            ]}
+          >
+            Search Movies
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.button,
+            activeComponent === 'tag'
+              ? styles.activeButton
+              : styles.inactiveButton,
+          ]}
+          onPress={() => handleToggle('tag')}>
+          <Text
+            style={[
+              styles.buttonText,
+              activeComponent === 'tag'
+                ? styles.activeButtonText
+                : styles.inactiveButtonText,
+            ]}
+          >
+            Browse by Tag
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {activeComponent === 'search' ? <MoviesSearch /> : <MoviesTag />}
@@ -37,6 +66,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
+  },
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+  },
+  activeButton: {
+    backgroundColor: 'transparent',
+  },
+  inactiveButton: {
+    backgroundColor: 'transparent',
+  },
+  buttonText: {
+    fontSize: 20,
+  },
+  activeButtonText: {
+    color: 'blue',
+  },
+  inactiveButtonText: {
+    color: 'gray',
   },
 });
 

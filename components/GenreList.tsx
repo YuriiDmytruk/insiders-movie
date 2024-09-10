@@ -28,11 +28,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: 6,
+    gap: 8,
     padding: 10,
   },
   genreBox: {
-    minWidth: '30%', // 3 columns
+    minWidth: '30%', // Adjust to fit content
     backgroundColor: '#f0f0f0',
     borderRadius: 8,
     paddingVertical: 10,

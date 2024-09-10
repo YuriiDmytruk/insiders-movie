@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Movie } from './types'; // Import Movie type
+import { Movie, Genre } from './types'; // Import Movie and Genre types
 
 export const apiMovie = createApi({
   reducerPath: 'apiMovie',
@@ -22,7 +22,11 @@ export const apiMovie = createApi({
       query: (searchString) =>
         `/search/movie?query=${encodeURIComponent(searchString)}&include_adult=false&language=en-US&page=1`,
     }),
+    getGenres: builder.query<Genre[], void>({
+      query: () => '/genre/movie/list?language=en',
+      transformResponse: (response: { genres: Genre[] }) => response.genres,
+    }),
   }),
 });
 
-export const { useGetMoviesByTagQuery, useSearchMoviesQuery } = apiMovie;
+export const { useGetMoviesByTagQuery, useSearchMoviesQuery, useGetGenresQuery } = apiMovie;

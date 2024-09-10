@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackParamList} from '../redux/types';
+import GenreList from './GenreList';
 
 type MovieCardRouteProp = RouteProp<StackParamList, 'MovieCard'>;
 
@@ -32,6 +33,7 @@ const MovieCard: React.FC = () => {
           resizeMode="contain"
         />
         <View style={styles.textContainer}>
+          <GenreList genresId={movie.genre_ids}/>
           <Text style={styles.title}>{movie.title}</Text>
           <Text style={styles.overview}>{movie.overview}</Text>
         </View>

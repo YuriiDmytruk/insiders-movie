@@ -2,14 +2,14 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {View, TextInput, StyleSheet, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useSearchMoviesQuery} from '../../redux/apiMovie';
-import {setMovies} from '../../redux/slices/moviesSlice';
+import {setMoviesSearch} from '../../redux/slices/moviesSlice';
 import {Movie} from '../../redux/types';
-import { RootState } from '../../redux/store';
-
+import {RootState} from '../../redux/store';
 
 const MoviesSearch = () => {
-
-  const _searchString = useSelector((state: RootState) => state.movies.searchString);
+  const _searchString = useSelector(
+    (state: RootState) => state.movies.searchString,
+  );
 
   const [searchString, setSearchString] = useState<string>(_searchString);
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const MoviesSearch = () => {
 
   const dispatchMovies = useCallback(
     (moviesArray: Movie[], search: string) => {
-      dispatch(setMovies({moviesArray, searchString: search, tag: null}));
+      dispatch(setMoviesSearch({moviesArray, searchString: search}));
     },
     [dispatch],
   );
@@ -34,7 +34,7 @@ const MoviesSearch = () => {
   }, [data, searchString, dispatchMovies]);
 
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput
         style={styles.input}
         value={searchString}
@@ -51,6 +51,9 @@ const MoviesSearch = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    paddingVertical: 10,
+  },
   input: {
     height: 40,
     margin: 12,

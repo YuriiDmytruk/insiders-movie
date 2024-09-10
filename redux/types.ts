@@ -15,6 +15,11 @@ export type Movie = {
   vote_count: number;
 };
 
+export type Genre = {
+  id: number;
+  name: string;
+};
+
 export type Tag = 'now_playing' | 'popular' | 'top_rated' | 'upcoming' | '';
 
 export type StackParamList = {

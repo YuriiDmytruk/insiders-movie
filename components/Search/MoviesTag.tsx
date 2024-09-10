@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetMoviesByTagQuery } from '../../redux/apiMovie';
-import { setMovies } from '../../redux/slices/moviesSlice';
+import { setMoviesTag } from '../../redux/slices/moviesSlice';
 import { Movie, Tag } from '../../redux/types';
 import { RootState } from '../../redux/store';
 
@@ -16,7 +16,7 @@ const MoviesTag = () => {
   const { data, isFetching } = useGetMoviesByTagQuery(tag);
 
   const dispatchMovies = useCallback((moviesArray: Movie[], __tag: Tag ) => {
-    dispatch(setMovies({ moviesArray, searchString: null, tag: __tag }));
+    dispatch(setMoviesTag({ moviesArray, tag: __tag }));
   }, [dispatch]);
 
   useEffect(() => {

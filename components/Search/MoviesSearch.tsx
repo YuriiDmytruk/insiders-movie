@@ -1,10 +1,12 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {View, TextInput, StyleSheet, Text} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {useSearchMoviesQuery} from '../../redux/apiMovie';
-import {setMoviesSearch} from '../../redux/slices/moviesSlice';
-import {Movie} from '../../redux/types';
-import {RootState} from '../../redux/store';
+import React, { useCallback, useEffect, useState } from 'react';
+import { View, TextInput, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSearchMoviesQuery } from '../../redux/apiMovie';
+import { setMoviesSearch } from '../../redux/slices/moviesSlice';
+import { Movie } from '../../redux/types';
+import { RootState } from '../../redux/store';
+
+const DEBOUNCE_DELAY = 300;
 
 const MoviesSearch = () => {
   const _searchString = useSelector(
@@ -12,26 +14,35 @@ const MoviesSearch = () => {
   );
 
   const [searchString, setSearchString] = useState<string>(_searchString);
+  const [debouncedSearch, setDebouncedSearch] = useState<string>(_searchString);
   const dispatch = useDispatch();
 
-  const {data, isFetching} = useSearchMoviesQuery(searchString, {
-    skip: searchString === '',
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchString);
+    }, DEBOUNCE_DELAY);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchString]);
+
+  const { data } = useSearchMoviesQuery(debouncedSearch, {
+    skip: debouncedSearch === '',
   });
 
   const dispatchMovies = useCallback(
     (moviesArray: Movie[], search: string) => {
-      dispatch(setMoviesSearch({moviesArray, searchString: search}));
+      dispatch(setMoviesSearch({ moviesArray, searchString: search }));
     },
     [dispatch],
   );
 
   useEffect(() => {
     if (data?.results) {
-      setTimeout(() => {
-        dispatchMovies(data.results, searchString);
-      }, 1000);
+      dispatchMovies(data.results, debouncedSearch);
     }
-  }, [data, searchString, dispatchMovies]);
+  }, [data, debouncedSearch, dispatchMovies]);
 
   return (
     <View style={styles.container}>
@@ -41,11 +52,6 @@ const MoviesSearch = () => {
         onChangeText={setSearchString}
         placeholder="Search movies..."
       />
-      {isFetching && (
-        <View>
-          <Text>Loading...</Text>
-        </View>
-      )}
     </View>
   );
 };

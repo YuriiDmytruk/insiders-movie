@@ -15,12 +15,20 @@ const moviesSlice = createSlice({
   initialState,
   reducers: {
     setMoviesSearch: (state, action: PayloadAction<ActionSetSearch>) => {
+      const filters = state.filters;
       state.searchString = action.payload.searchString;
       state.moviesArray = action.payload.moviesArray;
+      state.filteredMovies = action.payload.moviesArray.filter(movie =>
+        filters.every(filter => movie.genre_ids.includes(filter.id))
+      );
     },
     setMoviesTag: (state, action: PayloadAction<ActionSetTag>) => {
+      const filters = state.filters;
       state.tag = action.payload.tag;
       state.moviesArray = action.payload.moviesArray;
+      state.filteredMovies = action.payload.moviesArray.filter(movie =>
+        filters.every(filter => movie.genre_ids.includes(filter.id))
+      );
     },
     setGenres: (state, action: PayloadAction<ActionSetGenre>) => {
       state.genres = action.payload.genres;

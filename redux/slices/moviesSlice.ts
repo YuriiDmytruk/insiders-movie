@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ActionSetGenre, ActionSetSearch, ActionSetTag, MoviesState } from './types';
+import { ActionFilter, ActionSetGenre, ActionSetSearch, ActionSetTag, MoviesState } from './types';
 
 const initialState: MoviesState = {
   genres: [],
+  filters: [],
+  filteredMovies: [],
   tag: 'now_playing',
   searchString: '',
   moviesArray: [],
@@ -23,8 +25,15 @@ const moviesSlice = createSlice({
     setGenres: (state, action: PayloadAction<ActionSetGenre>) => {
       state.genres = action.payload.genres;
     },
+    filterMovies: (state, action: PayloadAction<ActionFilter>) => {
+      const filters = action.payload.filters;
+      state.filters = filters;
+      state.filteredMovies = state.moviesArray.filter(movie =>
+        movie.genre_ids.some(genreId => filters.some(filter => filter.id === genreId))
+      );
+    },
   },
 });
 
-export const { setGenres, setMoviesSearch, setMoviesTag } = moviesSlice.actions;
+export const { setGenres, setMoviesSearch, setMoviesTag, filterMovies } = moviesSlice.actions;
 export default moviesSlice.reducer;

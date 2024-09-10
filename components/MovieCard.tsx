@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   poster: {
     width: '100%',
-    height: 500, // Adjust the height as needed
+    height: 500,
     marginBottom: 20,
   },
   title: {

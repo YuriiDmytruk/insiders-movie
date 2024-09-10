@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   genreBox: {
-    minWidth: '30%', // Adjust to fit content
+    minWidth: '30%',
     backgroundColor: '#f0f0f0',
     borderRadius: 8,
     paddingVertical: 10,

@@ -2,9 +2,9 @@ import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  Text,
-  View,
 } from 'react-native';
+import MovieList from './components/MovieList';
+import MovieSearch from './components/MovieSearch';
 
 
 
@@ -13,9 +13,8 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View>
-          <Text>Hello</Text>
-        </View>
+        <MovieSearch />
+        <MovieList />
       </ScrollView>
     </SafeAreaView>
   );

@@ -5,18 +5,22 @@ import {
 } from 'react-native';
 import MovieList from './components/MovieList';
 import MovieSearch from './components/MovieSearch';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 
 
 function App(): React.JSX.Element {
 
   return (
+    <Provider store={store} >
     <SafeAreaView>
       <ScrollView>
         <MovieSearch />
         <MovieList />
       </ScrollView>
     </SafeAreaView>
+    </Provider>
   );
 }
 

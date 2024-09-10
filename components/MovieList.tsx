@@ -5,6 +5,7 @@ import { RootState } from '../redux/store';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { Movie, StackParamList } from '../redux/types';
 import Search from './Search/Search';
+import GenreFilter from './GenreFilter';
 
 
 type MovieListNavigationProp = NavigationProp<StackParamList, 'MovieList'>;
@@ -12,7 +13,15 @@ type MovieListNavigationProp = NavigationProp<StackParamList, 'MovieList'>;
 const IMAGE_PATH = 'https://image.tmdb.org/t/p/original';
 
 const MovieList = () => {
-  const movies = useSelector((state: RootState) => state.movies.moviesArray);
+
+  const filteredMovies = useSelector((state: RootState) => state.movies.filteredMovies);
+  let movies = useSelector((state: RootState) => state.movies.moviesArray);
+  const filters = useSelector((state: RootState) => state.movies.filters);
+
+  if(filters.length > 0){
+    movies = filteredMovies;
+  }
+
   const navigation = useNavigation<MovieListNavigationProp>();
 
   const handleCardPress = (movie: Movie) => {
@@ -32,6 +41,7 @@ const MovieList = () => {
   return (
     <View style={styles.container}>
       <Search />
+      <GenreFilter/>
       <FlatList
         data={movies}
         renderItem={renderItem}

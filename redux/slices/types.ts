@@ -5,6 +5,8 @@ export type MoviesState = {
   tag: Tag;
   searchString: string;
   moviesArray: Movie[];
+  filters: Genre[];
+  filteredMovies: Movie[];
 };
 
 export type ActionSetSearch = {
@@ -19,4 +21,8 @@ export type ActionSetTag = {
 
 export type ActionSetGenre = {
   genres: Genre[];
+};
+
+export type ActionFilter = {
+  filters: Genre[];
 };

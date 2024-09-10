@@ -29,7 +29,7 @@ const moviesSlice = createSlice({
       const filters = action.payload.filters;
       state.filters = filters;
       state.filteredMovies = state.moviesArray.filter(movie =>
-        movie.genre_ids.some(genreId => filters.some(filter => filter.id === genreId))
+        filters.every(filter => movie.genre_ids.includes(filter.id))
       );
     },
   },

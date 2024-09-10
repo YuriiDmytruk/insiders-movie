@@ -14,6 +14,8 @@ const GenreFilter: React.FC = () => {
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
   const allGenres = useSelector((state: RootState) => state.movies.genres);
 
+  const dispatch = useDispatch();
+
   const handlePress = () => {
     setIsActive(!isActive);
   };
@@ -26,19 +28,34 @@ const GenreFilter: React.FC = () => {
     );
   };
 
-  const dispatch = useDispatch();
+  const handleClearFilters = () => {
+    setSelectedGenres([]);
+    dispatch(filterMovies({ filters: [] }));
+  };
 
   useEffect(() => {
-    dispatch(filterMovies({filters: selectedGenres}));
+    dispatch(filterMovies({ filters: selectedGenres }));
   }, [selectedGenres, dispatch]);
+
+  const isFiltersActive = selectedGenres.length > 0;
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={[styles.filterButton]} onPress={handlePress}>
-        <Text style={[styles.filterText, isActive && styles.activeFilterText]}>
-          Filter
-        </Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.filterButton} onPress={handlePress}>
+          <Text style={[styles.filterText, isActive && styles.activeFilterText]}>
+            Filter
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.clearButton, isFiltersActive && styles.activeClearButton]}
+          onPress={handleClearFilters}
+        >
+          <Text style={[styles.clearButtonText, isFiltersActive && styles.activeClearButtonText]}>
+            Clear Filters
+          </Text>
+        </TouchableOpacity>
+      </View>
       {isActive && (
         <View style={styles.genreContainer}>
           {allGenres.map(genre => {
@@ -75,9 +92,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   filterButton: {
     paddingVertical: 5,
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     backgroundColor: 'transparent',
     alignItems: 'center',
   },
@@ -86,6 +107,23 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   activeFilterText: {
+    color: 'blue',
+  },
+  clearButton: {
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    backgroundColor: 'transparent',
+    marginLeft: 10,
+    alignItems: 'center',
+  },
+  clearButtonText: {
+    color: 'gray',
+    fontSize: 16,
+  },
+  activeClearButton: {
+
+  },
+  activeClearButtonText: {
     color: 'blue',
   },
   genreContainer: {

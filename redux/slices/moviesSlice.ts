@@ -1,18 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Movie } from '../types'; // Import Movie type
+import { Movie, Tag } from '../types';
 
 type MoviesState = {
+  tag: Tag,
   searchString: string,
   moviesArray: Movie[];
 };
 
 type ActionPayload = {
-  searchString: string,
+  tag: Tag | null,
+  searchString: string | null,
   moviesArray: Movie[];
 }
 
 const initialState: MoviesState = {
-  searchString: 'Now Playing',
+  tag: 'now_playing',
+  searchString: '',
   moviesArray: [],
 };
 
@@ -21,7 +24,8 @@ const moviesSlice = createSlice({
   initialState,
   reducers: {
     setMovies: (state, action: PayloadAction<ActionPayload>) => {
-      state.searchString = action.payload.searchString
+      state.tag = action.payload.tag ? action.payload.tag : state.tag;
+      state.searchString = action.payload.searchString ? action.payload.searchString : state.searchString;
       state.moviesArray = action.payload.moviesArray;
     },
   },

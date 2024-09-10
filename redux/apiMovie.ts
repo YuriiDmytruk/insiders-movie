@@ -1,8 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Movie } from './types'; // Import Movie type
 
-//const API_KEY = 'your_api_key_here'; // Replace with your actual API key
-
 export const apiMovie = createApi({
   reducerPath: 'apiMovie',
   baseQuery: fetchBaseQuery({
@@ -17,10 +15,14 @@ export const apiMovie = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getNowPlayingMovies: builder.query<{ results: Movie[] }, void>({
-      query: () => '/movie/now_playing?language=en-US&page=1',
+    getMoviesByTag: builder.query<{ results: Movie[] }, string>({
+      query: (tag) => `/movie/${tag}?language=en-US&page=1`,
+    }),
+    searchMovies: builder.query<{ results: Movie[] }, string>({
+      query: (searchString) =>
+        `/search/movie?query=${encodeURIComponent(searchString)}&include_adult=false&language=en-US&page=1`,
     }),
   }),
 });
 
-export const { useGetNowPlayingMoviesQuery } = apiMovie;
+export const { useGetMoviesByTagQuery, useSearchMoviesQuery } = apiMovie;

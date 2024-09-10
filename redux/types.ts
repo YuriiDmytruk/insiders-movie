@@ -14,3 +14,9 @@ export type Movie = {
     vote_average: number;
     vote_count: number;
   };
+
+// types.ts or similar
+export type StackParamList = {
+  MovieList: undefined; // No params expected
+  MovieCard: { movie: Movie }; // Expecting `movie` object as a parameter
+};
